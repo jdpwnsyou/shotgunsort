@@ -32,7 +32,6 @@ int closest_array[MAX_ELEMENTS];
 bool is_sorted(int array[]);
 void int_handler();
 void print_array(int array[], int array_status);
-void fprint_array(int array[], int array_status, int closest_attempt, FILE *array_log);
 void print_dotted_line(void);
 void print_loop_interval(long long i);
 void print_human_readable_number(long long i);
@@ -214,29 +213,7 @@ void print_array(int array[], int array_status) {
     else {
         printf("]\n");
     }
-}
-
-/** For printing arrays to a specified output file (not currently used)	**/
-void fprint_array(int array[], int array_status, int closest_attempt, FILE *array_log) {
-
-    int i;
-
-    if (array_status == CLOSEST) {
-        fprintf(array_log, "Closest Array: [ ");
-    }
-    else if (array_status == SORTED) {
-        fprintf(array_log, "Sorted Array: [ ");
-    }
-    else if (array_status == UNSORTED) {
-        fprintf(array_log, "Unsorted Array: [ ");
-    }
-
-    for(i = 0; i < num_array_elements; i++) {
-        fprintf(array_log, "%d ", array[i]);
-    }
-
-    fprintf(array_log, "] (%d)\n", closest_attempt);
-}
+} 
 
 // This function takes a long long number as input and
 // prints it in human readable format.
