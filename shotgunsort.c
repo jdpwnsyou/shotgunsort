@@ -4,6 +4,10 @@
 // John Dickinson
 // October 14, 2014
 
+// Usage ./shotgunsort <Number of array elements> <Iteration limit>
+// Number of array elements - default is 5, must be 2 or greater
+// Iteration limit - Number of times to attempt sorting, blank = unlimited
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
