@@ -45,6 +45,7 @@ int main(int argc, char *argv[]) {
     bool array_sorted;     // True if array is sorted and false otherwise
     int temp;              // Needed for shotgun shuffling the array
     int random_array_pos;
+    int max_array_elements = MAX_ELEMENTS;
 
     srand(time(NULL));     // Seed the random number generator
     num_sort_attempts = 0;
@@ -56,7 +57,6 @@ int main(int argc, char *argv[]) {
     }
     else {
         num_array_elements = atoi(argv[1]);
-
         // Array must contain more than 1 element to sort...
         if (num_array_elements < 2) {
             fprintf(stderr, "Array must contain 2 or more elements!\n");
@@ -69,16 +69,14 @@ int main(int argc, char *argv[]) {
         limit_attempts = atoi(argv[2]);
         printf("Attempting to shotgun sort a %d element array in %d tries...\n", num_array_elements, limit_attempts);
     }
-
-    // Unlimited attempts
-    else {
+    else {   //Unlimited
         limit_attempts = -1;
         printf("Attempting to shotgun sort a %d element array...\n", num_array_elements);
     }
 
     // Cap number of array elements
-    if (num_array_elements > MAX_ELEMENTS) {
-        fprintf(stderr, "The number of elements in the array cannot exceed 100.\n");
+    if (num_array_elements > max_array_elements) {
+        fprintf(stderr, "The number of elements in the array cannot exceed %d.\n", max_array_elements);
         exit(0);
     }
 
@@ -144,7 +142,8 @@ int main(int argc, char *argv[]) {
             break;
         }
     }
-    return 0;  // ttfn
+    return 0;  
+    //ttfn
 }
 
 /** Function to check if the array is sorted **/
@@ -156,21 +155,21 @@ bool is_sorted(int array[]) {
     for(i = 0; i < num_array_elements-1; i++) {
         if (array[i] > array[i+1]) {
 
-            // Track closest sorting attempt (incoming hack...)
+            //Track closest sorting attempt (incoming hack...)
             if (i > closest_attempt) {
-                closest_attempt = i + 1; // Convert to human counting (1 initiator)
+                closest_attempt = i + 1; //Convert to human counting (1 initiator)
                 closest_attempt_itr = num_sort_attempts;
                 print_array(array, CLOSEST);
-                closest_attempt = i;     // Revert to computer counting (0 initiator)
+                closest_attempt = i;     //Revert to computer counting (0 initiator)
                 for(j = 0; j < num_array_elements; j++) {
                     closest_array[j] = array[j];
                 }
             }
-            // Not sorted
+            //Not sorted
             return false;
         }
     }
-    // Sorted!
+    //Sorted!
     return true;
 }
 
@@ -215,9 +214,9 @@ void print_array(int array[], int array_status) {
     }
 } 
 
-// This function takes a long long number as input and
-// prints it in human readable format.
-// eg. - 1200000000 is printed 1.2 billion
+/* This function takes a long long number as input and 
+ * prints it in human readable format.
+ * eg. - 1200000000 is printed 1.2 billion */
 void print_human_readable_number(long long number) {
 
     int remainder = find_remainder(number);
@@ -244,8 +243,8 @@ void print_human_readable_number(long long number) {
     }
 }
 
-// Called by print_human_readable_number to work out the remainder
-// for printing easily readable values.
+/* Called by print_human_readable_number to work out the remainder
+ * for printing easily readable values. */
 int find_remainder(long long number) {
 
     int remainder = 0;
