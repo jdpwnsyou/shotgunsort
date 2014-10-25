@@ -23,9 +23,9 @@
 /** GLOBAL VARIABLES (ugly hacks...) **/
 unsigned int closest_attempt = 0;
 static bool keep_running = true;
-long long num_sort_attempts;		// Number of sorting attempts
+long long num_sort_attempts;	 // Number of sorting attempts
 long long closest_attempt_itr;   // The iteration of the closest attempt
-int num_array_elements;				// Number of elements in the sorting array
+int num_array_elements;		 // Number of elements in the sorting array
 int closest_array[MAX_ELEMENTS];
 
 /** Function declarations **/
@@ -43,11 +43,11 @@ int main(int argc, char *argv[]) {
 
     int i;
     int limit_attempts;    // Limits shotgun sorting attempts (optional)
-    bool array_sorted;		// True if array is sorted and false otherwise
-    int temp;  				// Needed for shotgun shuffling the array
+    bool array_sorted;     // True if array is sorted and false otherwise
+    int temp;              // Needed for shotgun shuffling the array
     int random_array_pos;
 
-    srand(time(NULL));	// Seed the random number generator
+    srand(time(NULL));     // Seed the random number generator
     num_sort_attempts = 0;
     signal(SIGINT, int_handler);
 
@@ -210,7 +210,6 @@ void print_array(int array[], int array_status) {
         printf("%2d/%-2d", closest_attempt, num_array_elements);
         printf(") ");
         printf("(%lld)\n",closest_attempt_itr);
-
     }
     else {
         printf("]\n");
