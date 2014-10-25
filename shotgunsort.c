@@ -57,12 +57,12 @@ int main(int argc, char *argv[]) {
     }
     else {
         num_array_elements = atoi(argv[1]);
-		  
-		  // Array must contain more than 1 element to sort...
-		  if (num_array_elements < 2){
-			  fprintf(stderr, "Array must contain 2 or more elements!\n");
-			  exit(0);
-		  }
+
+        // Array must contain more than 1 element to sort...
+        if (num_array_elements < 2) {
+            fprintf(stderr, "Array must contain 2 or more elements!\n");
+            exit(0);
+        }
     }
 
     //Check to see if attempts are limited
@@ -91,15 +91,15 @@ int main(int argc, char *argv[]) {
     }
 
     print_array(sorting_array, UNSORTED);
-	 print_dotted_line();
+    print_dotted_line();
 
     /** MAIN SORTING LOOP **/
     while(keep_running == true) {
-				  
-		  //Print loop count every 100,000,000 attempts
-		  if(num_sort_attempts > 0){
-		     print_loop_interval(num_sort_attempts);
-		  }
+
+        //Print loop count every 100,000,000 attempts
+        if(num_sort_attempts > 0) {
+            print_loop_interval(num_sort_attempts);
+        }
 
         //Shotgun Sort the array
         for(i = 0; i < num_array_elements; i++) {
@@ -114,10 +114,10 @@ int main(int argc, char *argv[]) {
 
         // If sorted...
         if (array_sorted == true) {
-			   print_dotted_line();
+            print_dotted_line();
             printf("Array successfully sorted after %lld attempts! ", num_sort_attempts);
-				print_human_readable_number(num_sort_attempts);
-				printf("\n");
+            print_human_readable_number(num_sort_attempts);
+            printf("\n");
             print_array(sorting_array, SORTED);
             break;
         }
@@ -136,10 +136,10 @@ int main(int argc, char *argv[]) {
 
         //If attempt limit reached
         else {
-			   print_dotted_line();
-				closest_attempt++; // Convert to human counting...
+            print_dotted_line();
+            closest_attempt++; // Convert to human counting...
             printf("Array not sorted after %lld attempts! ", num_sort_attempts);
-				print_human_readable_number(num_sort_attempts);
+            print_human_readable_number(num_sort_attempts);
             printf("\nThe closest attempt had %d elements in ascending order\n", closest_attempt);
             print_array(closest_array, CLOSEST);
             break;
@@ -160,8 +160,8 @@ bool is_sorted(int array[]) {
             // Track closest sorting attempt (incoming hack...)
             if (i > closest_attempt) {
                 closest_attempt = i + 1; // Convert to human counting (1 initiator)
-					 closest_attempt_itr = num_sort_attempts;
-					 print_array(array, CLOSEST);
+                closest_attempt_itr = num_sort_attempts;
+                print_array(array, CLOSEST);
                 closest_attempt = i;     // Revert to computer counting (0 initiator)
                 for(j = 0; j < num_array_elements; j++) {
                     closest_array[j] = array[j];
@@ -178,8 +178,8 @@ bool is_sorted(int array[]) {
 /** Interrupt handler **/
 void int_handler() {
     keep_running = false;
-	 closest_attempt++;	// Convert to human counting again...
-	 print_dotted_line();
+    closest_attempt++;	// Convert to human counting again...
+    print_dotted_line();
     fprintf(stderr, "Sorting attempt cancelled after %lld attempts", num_sort_attempts);
     fprintf(stderr, "\nThe closest attempt had %d elements in ascending order\n", closest_attempt);
     print_array(closest_array, CLOSEST);
@@ -205,24 +205,24 @@ void print_array(int array[], int array_status) {
         printf("%d ", array[i]);
     }
 
-	 if (array_status == CLOSEST) {
-		 printf("] ("); 
-		 printf("%2d/%-2d", closest_attempt, num_array_elements); 
-		 printf(") ");
-		 printf("(%lld)\n",closest_attempt_itr);
+    if (array_status == CLOSEST) {
+        printf("] (");
+        printf("%2d/%-2d", closest_attempt, num_array_elements);
+        printf(") ");
+        printf("(%lld)\n",closest_attempt_itr);
 
-	 }
-	 else{
-       printf("]\n");
-	 }
+    }
+    else {
+        printf("]\n");
+    }
 }
 
 /** For printing arrays to a specified output file (not currently used)	**/
-void fprint_array(int array[], int array_status, int closest_attempt, FILE *array_log){
+void fprint_array(int array[], int array_status, int closest_attempt, FILE *array_log) {
 
-	int i;
-    
-	 if (array_status == CLOSEST) {
+    int i;
+
+    if (array_status == CLOSEST) {
         fprintf(array_log, "Closest Array: [ ");
     }
     else if (array_status == SORTED) {
@@ -232,95 +232,95 @@ void fprint_array(int array[], int array_status, int closest_attempt, FILE *arra
         fprintf(array_log, "Unsorted Array: [ ");
     }
 
-	for(i = 0; i < num_array_elements; i++){
-		fprintf(array_log, "%d ", array[i]);
-	}
+    for(i = 0; i < num_array_elements; i++) {
+        fprintf(array_log, "%d ", array[i]);
+    }
 
-	fprintf(array_log, "] (%d)\n", closest_attempt);
+    fprintf(array_log, "] (%d)\n", closest_attempt);
 }
 
-// This function takes a long long number as input and 
+// This function takes a long long number as input and
 // prints it in human readable format.
 // eg. - 1200000000 is printed 1.2 billion
-void print_human_readable_number(long long number){
+void print_human_readable_number(long long number) {
 
-	int remainder = find_remainder(number);
-	
-	if(number < ONE_MILLION){
-		number = number / ONE_THOUSAND;
-		printf("(~%lld.%d thousand)", number, remainder);
-	}
-	else if(number < ONE_BILLION){
-		number = number / ONE_MILLION;
-		printf("(~%lld.%d million)", number, remainder);
-	}
-	else if(number < ONE_TRILLION){
-		number = number / ONE_BILLION;
-		printf("(~%lld.%d billion)", number, remainder);
-	}
-	else if(number < ONE_QUADRILLION){
-		number = number / ONE_TRILLION;
-		printf("(~%lld.%d trillion)", number, remainder);
-	}
-	else {
-		//No way this program ever runs this long 
-		printf("(YOU'RE WASTING CPU POWER...)"); 
-	}
+    int remainder = find_remainder(number);
+
+    if(number < ONE_MILLION) {
+        number = number / ONE_THOUSAND;
+        printf("(~%lld.%d thousand)", number, remainder);
+    }
+    else if(number < ONE_BILLION) {
+        number = number / ONE_MILLION;
+        printf("(~%lld.%d million)", number, remainder);
+    }
+    else if(number < ONE_TRILLION) {
+        number = number / ONE_BILLION;
+        printf("(~%lld.%d billion)", number, remainder);
+    }
+    else if(number < ONE_QUADRILLION) {
+        number = number / ONE_TRILLION;
+        printf("(~%lld.%d trillion)", number, remainder);
+    }
+    else {
+        //No way this program ever runs this long
+        printf("(YOU'RE WASTING CPU POWER...)");
+    }
 }
 
 // Called by print_human_readable_number to work out the remainder
 // for printing easily readable values.
-int find_remainder(long long number){
+int find_remainder(long long number) {
 
-	int remainder = 0;
+    int remainder = 0;
 
-	if(number < ONE_MILLION){
-		if ((number % ONE_THOUSAND) < 100){
-			remainder = 0;
-		}
-		else{
-			remainder = (number % ONE_THOUSAND) / 100;
-		}	
-	}
-	else if(number < ONE_BILLION){
-		if ((number % ONE_MILLION) < 100000){
-			remainder = 0;
-		}
-		else{
-			remainder = (number % ONE_MILLION) / 100000;
-		}	
-	}	
-	else if(number < ONE_TRILLION){
-		if ((number % ONE_BILLION) < 100000000){
-			remainder = 0;
-		}
-		else{
-			remainder = (number % ONE_BILLION) / 100000000;
-		}	
-	}
-	return(remainder);
+    if(number < ONE_MILLION) {
+        if ((number % ONE_THOUSAND) < 100) {
+            remainder = 0;
+        }
+        else {
+            remainder = (number % ONE_THOUSAND) / 100;
+        }
+    }
+    else if(number < ONE_BILLION) {
+        if ((number % ONE_MILLION) < 100000) {
+            remainder = 0;
+        }
+        else {
+            remainder = (number % ONE_MILLION) / 100000;
+        }
+    }
+    else if(number < ONE_TRILLION) {
+        if ((number % ONE_BILLION) < 100000000) {
+            remainder = 0;
+        }
+        else {
+            remainder = (number % ONE_BILLION) / 100000000;
+        }
+    }
+    return(remainder);
 }
 
 /* Prints loop interval */
-void print_loop_interval(long long attempts){
+void print_loop_interval(long long attempts) {
 
-   //Print out every 100 million iterations 	
-	if(attempts < ONE_BILLION && attempts % (ONE_MILLION * 100) == 0){
-		printf("Passing %lld million attempts...\n", attempts / 1000000);
-	}
+    //Print out every 100 million iterations
+    if(attempts < ONE_BILLION && attempts % (ONE_MILLION * 100) == 0) {
+        printf("Passing %lld million attempts...\n", attempts / 1000000);
+    }
 
-	//Print every 1 billion iterations
-	else if(attempts < ONE_TRILLION && attempts % ONE_BILLION == 0){
-		printf("Passing %lld billion attempts...\n", attempts / 1000000000);
-	}
-	
-	//Print every 1 trillion iterations
-	else if(attempts < ONE_QUADRILLION && attempts % ONE_TRILLION == 0){
-		printf("Passing %lld trillion attempts...\n", attempts / 1000000000000);
-	}
+    //Print every 1 billion iterations
+    else if(attempts < ONE_TRILLION && attempts % ONE_BILLION == 0) {
+        printf("Passing %lld billion attempts...\n", attempts / 1000000000);
+    }
+
+    //Print every 1 trillion iterations
+    else if(attempts < ONE_QUADRILLION && attempts % ONE_TRILLION == 0) {
+        printf("Passing %lld trillion attempts...\n", attempts / 1000000000000);
+    }
 }
 
 /** Prints a single dotted line followed by a newline to stdout **/
-void print_dotted_line(void){
-	printf("-------------------------------------------------------------\n");
+void print_dotted_line(void) {
+    printf("-------------------------------------------------------------\n");
 }
