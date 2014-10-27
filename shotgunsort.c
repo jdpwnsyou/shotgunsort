@@ -14,7 +14,9 @@
 #include <signal.h>
 #include <stdbool.h>
 
+#define MIN_ELEMENTS 2
 #define MAX_ELEMENTS 100
+#define MAX_ELEMENT_VALUE 100
 #define CLOSEST 0
 #define SORTED 1
 #define UNSORTED 2
@@ -49,6 +51,7 @@ int main(int argc, char *argv[]) {
     bool array_sorted;     // True if array is sorted and false otherwise
     int temp;              // Needed for shotgun shuffling the array
     int random_array_pos;
+    int min_array_elements = MIN_ELEMENTS;
     int max_array_elements = MAX_ELEMENTS;
 
     srand(time(NULL));     // Seed the random number generator
@@ -62,8 +65,8 @@ int main(int argc, char *argv[]) {
     else {
         num_array_elements = atoi(argv[1]);
         // Array must contain more than 1 element to sort...
-        if (num_array_elements < 2) {
-            fprintf(stderr, "Array must contain 2 or more elements!\n");
+        if (num_array_elements < min_array_elements) {
+            fprintf(stderr, "Array must contain %d or more elements!\n", min_array_elements);
             exit(0);
         }
     }
@@ -88,7 +91,7 @@ int main(int argc, char *argv[]) {
 
     // Populate the array to be sorted
     for(i = 0; i < num_array_elements; i++) {
-        sorting_array[i] = rand() % 100;
+        sorting_array[i] = rand() % MAX_ELEMENT_VALUE;
     }
 
     print_array(sorting_array, UNSORTED);
