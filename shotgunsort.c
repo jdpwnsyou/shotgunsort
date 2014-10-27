@@ -102,7 +102,7 @@ int main(int argc, char *argv[]) {
             print_loop_interval(num_sort_attempts);
         }
 
-        //Shotgun Sort the array
+        /** Bogosort Algorithm **/
         for(i = 0; i < num_array_elements; i++) {
             random_array_pos = rand() % num_array_elements;
             temp = sorting_array[i];
