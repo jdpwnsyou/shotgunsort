@@ -37,7 +37,7 @@ int closest_array[MAX_ELEMENTS];
 /** Function declarations **/
 bool is_sorted(int array[]);
 void int_handler();
-void print_array(int array[], int array_status);
+void print_array(int array[], int array_status, bool value);
 void print_dotted_line(void);
 void print_loop_interval(long long i);
 void print_human_readable_number(long long i, bool value);
@@ -94,7 +94,7 @@ int main(int argc, char *argv[]) {
         sorting_array[i] = rand() % MAX_ELEMENT_VALUE;
     }
 
-    print_array(sorting_array, UNSORTED);
+    print_array(sorting_array, UNSORTED, false);
     print_dotted_line();
 
     /** MAIN SORTING LOOP **/
@@ -122,7 +122,7 @@ int main(int argc, char *argv[]) {
             printf("Array successfully sorted after %lld attempts! ", num_sort_attempts);
             print_human_readable_number(num_sort_attempts, true);
             printf("\n");
-            print_array(sorting_array, SORTED);
+            print_array(sorting_array, SORTED, false);
             break;
         }
 
@@ -143,10 +143,8 @@ int main(int argc, char *argv[]) {
             print_dotted_line();
             closest_attempt++; // Convert to human counting...
             printf("Array not sorted after %lld attempts! ", num_sort_attempts);
-            printf("\nThe closest attempt had %d elements in ascending order after ", closest_attempt);
-            print_human_readable_number(closest_attempt_itr, false);
-            printf(" attempts.\n");
-            print_array(closest_array, CLOSEST);
+            printf("\nThe closest attempt had %d elements in ascending order.\n", closest_attempt);
+            print_array(closest_array, CLOSEST, true);
             break;
         }
     }
@@ -167,7 +165,7 @@ bool is_sorted(int array[]) {
             if (i > closest_attempt) {
                 closest_attempt = i + 1; //Convert to human counting (1 initiator)
                 closest_attempt_itr = num_sort_attempts;
-                print_array(array, CLOSEST);
+                print_array(array, CLOSEST, false);
                 closest_attempt = i;     //Revert to computer counting (0 initiator)
                 for(j = 0; j < num_array_elements; j++) {
                     closest_array[j] = array[j];
@@ -187,18 +185,16 @@ void int_handler() {
     closest_attempt++;	// Convert to human counting again...
     print_dotted_line();
     fprintf(stderr, "Sorting attempt cancelled after %lld attempts", num_sort_attempts);
-    fprintf(stderr, "\nThe closest attempt had %d elements in ascending order after ", closest_attempt);
-    print_human_readable_number(closest_attempt_itr, false);
-    fprintf(stderr, " attempts.\n");
-    print_array(closest_array, CLOSEST);
+    fprintf(stderr, "\nThe closest attempt had %d elements in ascending order.\n", closest_attempt);
+    print_array(closest_array, CLOSEST, true);
     exit(0);
 }
 
 /** Pretty array printer **/
-void print_array(int array[], int array_status) {
+void print_array(int array[], int array_status, bool human_readable) {
 
-    int i;
-
+     int i;
+     
     if (array_status == CLOSEST) {
         printf("Closest attempt: [ ");
     }
@@ -217,7 +213,14 @@ void print_array(int array[], int array_status) {
         printf("] (");
         printf("%2d/%-2d", closest_attempt, num_array_elements);
         printf(") ");
-        printf("(%lld)\n",closest_attempt_itr);
+        printf("(%lld) ",closest_attempt_itr);
+	if(human_readable == true){
+	  print_human_readable_number(closest_attempt_itr, true);
+	  printf("\n");
+	} 
+	else{
+	  printf("\n");
+	}
     }
     else {
         printf("]\n");
