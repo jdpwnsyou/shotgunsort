@@ -28,7 +28,7 @@
 
 /** GLOBAL VARIABLES (ugly hacks...) **/
 unsigned int closest_attempt = 0;
-static bool keep_running = true;
+bool keep_running = true;
 long long num_sort_attempts;	 // Number of sorting attempts
 long long closest_attempt_itr;   // The iteration of the closest attempt
 int num_array_elements;		 // Number of elements in the sorting array
