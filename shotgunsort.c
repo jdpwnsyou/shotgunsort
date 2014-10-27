@@ -120,7 +120,7 @@ int main(int argc, char *argv[]) {
         if (array_sorted == true) {
             print_dotted_line();
             printf("Array successfully sorted after %lld attempts! ", num_sort_attempts);
-				print_human_readable_number(num_sort_attempts, true);
+            print_human_readable_number(num_sort_attempts, true);
             printf("\n");
             print_array(sorting_array, SORTED);
             break;
