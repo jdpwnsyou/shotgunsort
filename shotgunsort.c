@@ -231,9 +231,9 @@ void print_human_readable_number(long long number, bool parentheses) {
 
     int remainder = find_remainder(number);
 
-	 if(parentheses == true){
-		 printf("(");
-	 }
+    if(parentheses == true){
+      printf("(");
+    }
 
     if(number < ONE_MILLION) {
         number = number / ONE_THOUSAND;
@@ -256,9 +256,9 @@ void print_human_readable_number(long long number, bool parentheses) {
         printf("YOU'RE WASTING CPU POWER...");
     }
 
-	 if(parentheses == true){
-		 printf(")");
-	 }
+    if(parentheses == true){
+        printf(")");
+    }
 }
 
 /* Called by print_human_readable_number to work out the remainder
