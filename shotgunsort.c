@@ -144,8 +144,8 @@ int main(int argc, char *argv[]) {
             closest_attempt++; // Convert to human counting...
             printf("Array not sorted after %lld attempts! ", num_sort_attempts);
             printf("\nThe closest attempt had %d elements in ascending order after ", closest_attempt);
-				print_human_readable_number(closest_attempt_itr, false);
-				printf(" attempts.\n");
+            print_human_readable_number(closest_attempt_itr, false);
+            printf(" attempts.\n");
             print_array(closest_array, CLOSEST);
             break;
         }
@@ -188,8 +188,8 @@ void int_handler() {
     print_dotted_line();
     fprintf(stderr, "Sorting attempt cancelled after %lld attempts", num_sort_attempts);
     fprintf(stderr, "\nThe closest attempt had %d elements in ascending order after ", closest_attempt);
-	 print_human_readable_number(closest_attempt_itr, false);
-	 fprintf(stderr, " attempts.\n");
+    print_human_readable_number(closest_attempt_itr, false);
+    fprintf(stderr, " attempts.\n");
     print_array(closest_array, CLOSEST);
     exit(0);
 }
