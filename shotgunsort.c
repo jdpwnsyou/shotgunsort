@@ -208,7 +208,6 @@ void int_handler() {
 }
 
 /** Pretty array printer **/
-// needs upgrading, human_readable variable too vague
 void print_array(int array[], int array_status, bool human_readable) {
 
      int i;
@@ -353,35 +352,32 @@ void print_loop_interval(long long attempts) {
 
 void quicksort(int a[], int low, int high){
 
-	int pivot, j, temp, i;
+  int pivot, j, temp, i;
+  if(low < high){
+     pivot = low;
+     i = low;
+     j = high;
 
-	if(low < high){
-		pivot = low;
-		i = low;
-		j = high;
+     while(i < j){
+         while((a[i] <= a[pivot]) && (i < high)){
+            i++;
+          }
+          while(a[j] > a[pivot]){
+	    j--;
+	  }
+	  if(i < j){
+	     temp = a[i];
+	     a[i] = a[j];
+	     a[j] = temp;
+	  }
+      }
 
-		while(i < j){
-			
-			while((a[i] <= a[pivot]) && (i < high)){
-				i++;
-			}
-			while(a[j] > a[pivot]){
-				j--;
-			}
-
-			if(i < j){
-				temp = a[i];
-				a[i] = a[j];
-				a[j] = temp;
-			}
-		}
-
-		temp = a[pivot];
-		a[pivot] = a[j];
-		a[j] = temp;
-		quicksort(a, low, j-1);
-		quicksort(a, j+1, high);
-	}
+      temp = a[pivot];
+      a[pivot] = a[j];
+      a[j] = temp;
+      quicksort(a, low, j-1);
+      quicksort(a, j+1, high);
+  }
 }
 
 
