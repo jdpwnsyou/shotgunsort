@@ -35,13 +35,16 @@ int num_array_elements;		 // Number of elements in the sorting array
 int closest_array[MAX_ELEMENTS];
 
 /** Function declarations **/
-bool is_sorted(int array[]);
+bool is_sorted(int array[], int[]);
 void int_handler();
 void print_array(int array[], int array_status, bool value);
 void print_dotted_line(void);
 void print_loop_interval(long long i);
 void print_human_readable_number(long long i, bool value);
 int find_remainder(long long i);
+void quicksort(int a[], int l, int r);
+int split(int array[], int upper, int lower);
+int copy_array(int input[], int copy[]);
 
 /** MAIN **/
 int main(int argc, char *argv[]) {
@@ -88,19 +91,30 @@ int main(int argc, char *argv[]) {
     }
 
     int sorting_array[num_array_elements];
+	 int sorted_array[num_array_elements];
 
     // Populate the array to be sorted
     for(i = 0; i < num_array_elements; i++) {
         sorting_array[i] = rand() % MAX_ELEMENT_VALUE;
     }
 
+	 //Print unsorted, freshly generated array
     print_array(sorting_array, UNSORTED, false);
-    print_dotted_line();
+	 
+	 //Quicksort the array for comparison
+	 quicksort(sorting_array, 0, num_array_elements-1); 
+	 
+	 //Make a copy of the sorted aray
+	 copy_array(sorting_array, sorted_array);
+	 
+	 //Print target (sorted) array
+	 print_array(sorted_array, SORTED, false);
+	 print_dotted_line();
 
     /** MAIN SORTING LOOP **/
     while(keep_running == true) {
-
-        //Print loop count every 100,000,000 attempts
+		  
+		  //Print loop count every 100,000,000 attempts
         if(num_sort_attempts > 0) {
             print_loop_interval(num_sort_attempts);
         }
@@ -112,9 +126,9 @@ int main(int argc, char *argv[]) {
             sorting_array[i] = sorting_array[random_array_pos];
             sorting_array[random_array_pos] = temp;
         }
-
+        
         //Check order
-        array_sorted = is_sorted(sorting_array);
+        array_sorted = is_sorted(sorting_array, sorted_array);
 
         // If sorted...
         if (array_sorted == true) {
@@ -141,9 +155,8 @@ int main(int argc, char *argv[]) {
         //If attempt limit reached
         else {
             print_dotted_line();
-            closest_attempt++; // Convert to human counting...
             printf("Array not sorted after %lld attempts! ", num_sort_attempts);
-            printf("\nThe closest attempt had %d elements in ascending order.\n", closest_attempt);
+            printf("\nThe closest attempt had %d elements in the correct position.\n", closest_attempt);
             print_array(closest_array, CLOSEST, true);
             break;
         }
@@ -153,20 +166,24 @@ int main(int argc, char *argv[]) {
 }
 
 /** Function to check if the array is sorted **/
-bool is_sorted(int array[]) {
+bool is_sorted(int array[], int target_array[]) {
 
     int i;
     int j;
 
-    for(i = 0; i < num_array_elements-1; i++) {
-        if (array[i] > array[i+1]) {
+    for(i = 0; i < num_array_elements; i++) {
+        if (array[i] != target_array[i]) {
 
             //Track closest sorting attempt (incoming hack...)
             if (i > closest_attempt) {
-                closest_attempt = i + 1; //Convert to human counting (1 initiator)
+                closest_attempt = i; 
                 closest_attempt_itr = num_sort_attempts;
-                print_array(array, CLOSEST, false);
-                closest_attempt = i;     //Revert to computer counting (0 initiator)
+					 if(num_sort_attempts < ONE_MILLION){
+					    print_array(array, CLOSEST, false);
+					 }
+					 else {
+						 print_array(array, CLOSEST, true);
+					 }
                 for(j = 0; j < num_array_elements; j++) {
                     closest_array[j] = array[j];
                 }
@@ -182,15 +199,16 @@ bool is_sorted(int array[]) {
 /** Interrupt handler **/
 void int_handler() {
     keep_running = false;
-    closest_attempt++;	// Convert to human counting again...
+    //closest_attempt++;	// Convert to human counting again...
     print_dotted_line();
     fprintf(stderr, "Sorting attempt cancelled after %lld attempts", num_sort_attempts);
-    fprintf(stderr, "\nThe closest attempt had %d elements in ascending order.\n", closest_attempt);
+    fprintf(stderr, "\nThe closest attempt had %d elements in the correct position.\n", closest_attempt);
     print_array(closest_array, CLOSEST, true);
     exit(0);
 }
 
 /** Pretty array printer **/
+// needs upgrading, human_readable variable too vague
 void print_array(int array[], int array_status, bool human_readable) {
 
      int i;
@@ -204,6 +222,9 @@ void print_array(int array[], int array_status, bool human_readable) {
     else if (array_status == UNSORTED) {
         printf("Unsorted Array:  [ ");
     }
+	 else {
+		 printf("[ ");
+	 }
 
     for(i = 0; i < num_array_elements; i++) {
         printf("%d ", array[i]);
@@ -225,6 +246,17 @@ void print_array(int array[], int array_status, bool human_readable) {
     else {
         printf("]\n");
     }
+}
+
+int copy_array(int input[], int copy[]){
+	
+	int i;
+
+	for(i = 0; i < num_array_elements; i++){
+		copy[i] = input[i];
+	}
+	
+	return 1;
 } 
 
 /* This function takes a long long int as input and
@@ -318,6 +350,40 @@ void print_loop_interval(long long attempts) {
         printf("Passing %lld trillion attempts...\n", attempts / 1000000000000);
     }
 }
+
+void quicksort(int a[], int low, int high){
+
+	int pivot, j, temp, i;
+
+	if(low < high){
+		pivot = low;
+		i = low;
+		j = high;
+
+		while(i < j){
+			
+			while((a[i] <= a[pivot]) && (i < high)){
+				i++;
+			}
+			while(a[j] > a[pivot]){
+				j--;
+			}
+
+			if(i < j){
+				temp = a[i];
+				a[i] = a[j];
+				a[j] = temp;
+			}
+		}
+
+		temp = a[pivot];
+		a[pivot] = a[j];
+		a[j] = temp;
+		quicksort(a, low, j-1);
+		quicksort(a, j+1, high);
+	}
+}
+
 
 /** Prints a single dotted line followed by a newline to stdout **/
 void print_dotted_line(void) {
