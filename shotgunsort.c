@@ -1,7 +1,6 @@
 /** SHOTGUN SORT TEST-OUTIFIER **/
 
 // shotgunsort.c
-// John Dickinson
 // October 14, 2014
 
 // Usage: ./shotgunsort <Number of array elements> <Iteration limit>
